@@ -1,0 +1,79 @@
+<!-- AltaFacha.uy Tienda - 2 modelos -->
+<div id="altafacha-tienda"></div>
+
+<script>
+// Datos de los productos
+const productos = [
+  {nombre: "Modelo 1", descripcion: "Algodón. Impresión de vinilo de calidad.", precio: 945, personalizado: false, img: "https://via.placeholder.com/200x200.png?text=Modelo+1"},
+  {nombre: "Modelo 2", descripcion: "Algodón. Impresión de vinilo de calidad.", precio: 1200, personalizado: true, img: "https://via.placeholder.com/200x200.png?text=Modelo+2"}
+];
+
+// Carrito
+let carrito = [];
+
+// Función para mostrar productos
+function mostrarProductos() {
+  const tienda = document.getElementById('altafacha-tienda');
+  productos.forEach((prod, index) => {
+    const prodDiv = document.createElement('div');
+    prodDiv.style.border = "1px solid #ccc";
+    prodDiv.style.padding = "10px";
+    prodDiv.style.margin = "10px";
+    prodDiv.style.display = "inline-block";
+    prodDiv.style.width = "200px";
+    prodDiv.innerHTML = `
+      <img src="${prod.img}" style="width:100%; height:auto;">
+      <h3>${prod.nombre}</h3>
+      <p>${prod.descripcion}</p>
+      <p><b>$${prod.precio}</b></p>
+      <button onclick="agregarAlCarrito(${index})">Agregar al carrito</button>
+    `;
+    tienda.appendChild(prodDiv);
+  });
+}
+
+// Función para agregar al carrito
+function agregarAlCarrito(index) {
+  carrito.push(productos[index]);
+  alert(productos[index].nombre + " agregado al carrito");
+  mostrarCarrito();
+}
+
+// Función para mostrar carrito
+function mostrarCarrito() {
+  let carritoDiv = document.getElementById('carrito');
+  if(!carritoDiv){
+    carritoDiv = document.createElement('div');
+    carritoDiv.id = 'carrito';
+    carritoDiv.style.marginTop = '20px';
+    document.getElementById('altafacha-tienda').appendChild(carritoDiv);
+  }
+  carritoDiv.innerHTML = "<h2>Carrito</h2>";
+  let total = 0;
+  carrito.forEach((item, i) => {
+    carritoDiv.innerHTML += `<p>${item.nombre} - $${item.precio} <button onclick="eliminarDelCarrito(${i})">X</button></p>`;
+    total += item.precio;
+  });
+  carritoDiv.innerHTML += `<h3>Total: $${total}</h3>`;
+  carritoDiv.innerHTML += `<button onclick="pagar()">Pagar ahora</button>`;
+}
+
+// Función para eliminar del carrito
+function eliminarDelCarrito(index) {
+  carrito.splice(index,1);
+  mostrarCarrito();
+}
+
+// Función para pagar
+function pagar() {
+  if(carrito.length === 0){
+    alert("El carrito está vacío");
+    return;
+  }
+  // Aquí ponés tu link de pago de Mercado Pago o Prex
+  window.location.href = "URL_DE_TU_LINK_DE_PAGO";
+}
+
+// Mostrar productos al cargar
+mostrarProductos();
+</script>
